@@ -1,12 +1,15 @@
 import java.nio.file.Path;
 
 public class Main {
-        public static void main(
+
+    public static void main(
             String[] args
     ) throws Exception {
+
         WorkspaceBuilder builder =
                 new WorkspaceBuilder();
-        WorkspaceResult result =
+
+        WorkspaceResult workspace =
                 builder.buildWorkspace(
 
                         Path.of(
@@ -18,8 +21,54 @@ public class Main {
                         )
                 );
 
-        System.out.println(
-                result.getWorkspaceRoot()
+        GradleRunner runner =
+                new GradleRunner();
+
+        JudgeResult result =
+        runner.runTests(
+                workspace.getWorkspaceRoot()
         );
+
+ResultParser parser =
+        new ResultParser();
+
+TestSummary summary =
+        parser.parse(
+                result
+        );
+
+System.out.println(
+        "Passed: "
+                + result.passed()
+);
+
+System.out.println(
+        "Total Tests: "
+                + summary.getTotalTests()
+);
+
+System.out.println(
+        "Passed Tests: "
+                + summary.getPassedTests()
+);
+
+System.out.println(
+        "Failed Tests: "
+                + summary.getFailedTests()
+);
+
+System.out.println(
+        "Failures:"
+);
+
+for (
+        String failure :
+        summary.getFailures()
+) {
+
+    System.out.println(
+            failure
+    );
+}
     }
 }

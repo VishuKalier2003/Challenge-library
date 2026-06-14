@@ -10,6 +10,14 @@ public class WorkspaceBuilder {
             Path submissionPath
     ) throws IOException {
 
+        validateChallenge(
+                challengePath
+        );
+
+        validateSubmission(
+                submissionPath
+        );
+
         Path workspaceRoot =
                 Files.createTempDirectory(
                         "judge-workspace-"
@@ -40,7 +48,7 @@ public class WorkspaceBuilder {
 
         copyDirectory(
                 challengePath.resolve(
-                        "src/test/java"
+                        "tests"
                 ),
                 testJava
         );
@@ -54,43 +62,101 @@ public class WorkspaceBuilder {
         );
     }
 
+    private void validateChallenge(
+            Path challengePath
+    ) {
+
+        if (!Files.exists(challengePath)) {
+
+            throw new RuntimeException(
+                    "Challenge folder not found: "
+                            + challengePath
+            );
+        }
+
+        if (
+                !Files.exists(
+                        challengePath.resolve(
+                                "problem.yaml"
+                        )
+                )
+        ) {
+
+            throw new RuntimeException(
+                    "problem.yaml missing"
+            );
+        }
+
+        if (
+                !Files.exists(
+                        challengePath.resolve(
+                                "tests"
+                        )
+                )
+        ) {
+
+            throw new RuntimeException(
+                    "tests folder missing"
+            );
+        }
+    }
+
+    private void validateSubmission(
+            Path submissionPath
+    ) {
+
+        if (
+                !Files.exists(
+                        submissionPath
+                )
+        ) {
+
+            throw new RuntimeException(
+                    "Submission folder missing: "
+                            + submissionPath
+            );
+        }
+    }
+
     private void generateBuildGradle(
             Path workspaceRoot
     ) throws IOException {
 
-        String gradleFile =
-                """
-                plugins {
-                    id 'java'
-                }
+        String buildGradle =
+        """
+        plugins {
+            id 'java'
+        }
 
-                repositories {
-                    mavenCentral()
-                }
+        repositories {
+            mavenCentral()
+        }
 
-                dependencies {
+        dependencies {
 
-                    testImplementation platform(
-                        'org.junit:junit-bom:5.12.2'
-                    )
+            testImplementation platform(
+                'org.junit:junit-bom:5.12.2'
+            )
 
-                    testImplementation
-                        'org.junit.jupiter:junit-jupiter'
+            testImplementation(
+                'org.junit.jupiter:junit-jupiter'
+            )
 
-                    testRuntimeOnly
-                        'org.junit.platform:junit-platform-launcher'
-                }
+            testRuntimeOnly(
+                'org.junit.platform:junit-platform-launcher'
+            )
+        }
 
-                test {
-                    useJUnitPlatform()
-                }
-                """;
+        test {
+            useJUnitPlatform()
+        }
+        """;
 
         Files.writeString(
                 workspaceRoot.resolve(
                         "build.gradle"
                 ),
-                gradleFile
+                buildGradle
         );
     }
 
