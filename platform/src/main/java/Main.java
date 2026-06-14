@@ -29,8 +29,8 @@ public class Main {
                 workspace.getWorkspaceRoot()
         );
 
-ResultParser parser =
-        new ResultParser();
+XmlResultParser parser =
+        new XmlResultParser();
 
 TestSummary summary =
         parser.parse(

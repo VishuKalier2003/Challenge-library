@@ -53,8 +53,9 @@ public class GradleRunner {
                 process.waitFor();
 
         return new JudgeResult(
-                exitCode,
-                output.toString()
-        );
+        exitCode,
+        output.toString(),
+        workspace
+);
     }
 }

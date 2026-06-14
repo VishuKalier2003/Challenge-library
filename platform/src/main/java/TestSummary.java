@@ -45,4 +45,11 @@ public class TestSummary {
     public List<String> getFailures() {
         return failures;
     }
+
+    private final List<String> passed =
+        new ArrayList<>();
+
+    public List<String> getPassed() {
+        return passed;
+    }
 }
