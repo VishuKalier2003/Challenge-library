@@ -1,0 +1,20 @@
+problem_format_version: "legacy"
+
+id: rate-limiter
+
+name: rate-limiter
+
+title: Build Rate Limiter
+
+difficulty: MEDIUM
+
+category: SYSTEMS
+
+challenge_type: CODE
+
+language: java
+
+entry_class: Main
+
+description: |
+  Build a token bucket rate limiter.

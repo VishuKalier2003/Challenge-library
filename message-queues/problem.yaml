@@ -1,0 +1,73 @@
+problem_format_version: "legacy"
+
+id: message-queue
+
+name: message-queue
+
+title: Build Message Queue
+
+slug: message-queue
+
+difficulty: EASY
+
+category: SYSTEMS
+
+challenge_type: CODE
+
+language: java
+
+entry_class: Main
+
+description: |
+  Build a FIFO message queue.
+
+contract:
+
+  required_methods:
+    - enqueue
+    - dequeue
+    - queueDepth
+
+  required_files:
+    - Main.java
+
+constraints:
+
+  max_messages: 1000000
+
+  thread_safe: true
+
+  persistence_required: false
+
+  max_execution_time_ms: 5000
+
+scoring:
+
+  - category: correctness
+    weight: 70
+
+  - category: performance
+    weight: 20
+
+  - category: observability
+    weight: 10
+
+paths:
+
+  starter: starter
+
+  solution: solution
+
+  visible_tests: tests/visible
+
+  hidden_tests: tests/hidden
+
+tags:
+
+  - queue
+
+  - concurrency
+
+  - systems
+
+  - lld
